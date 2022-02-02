@@ -1,29 +1,34 @@
-import { createLogger, transports, format } from 'winston';
+const winston = require('winston');
+const { format, transports } = winston;
+const path = require('path');
 
-interface TransformableInfo {
-  level: string;
-  message: string;
+const logFormat = format.printf(
+  (info) => `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`,
+);
 
-  [key: string]: any;
-}
-
-const logger = createLogger({
+const logger = winston.createLogger({
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  format: format.combine(
+    format.label({ label: path.basename(process.mainModule.filename) }),
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    // Format the metadata object
+    format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] }),
+  ),
   transports: [
     new transports.Console({
-      level: 'debug',
+      format: format.combine(format.colorize(), logFormat),
+    }),
+    new transports.File({
+      filename: 'logs/combined.log',
       format: format.combine(
-        format.label({ label: '[my-server]' }),
-        format.timestamp({
-          format: 'YYYY-MM-DD HH:mm:ss',
-        }),
-        format.colorize(),
-        format.printf(
-          (info: TransformableInfo) =>
-            `${info.timestamp} - ${info.level}: ${info.label} ${info.message}`,
-        ),
+        // Render in one line in your log file.
+        // If you use prettyPrint() here it will be really
+        // difficult to exploit your logs files afterwards.
+        format.json(),
       ),
     }),
   ],
+  exitOnError: false,
 });
 
 export { logger };
