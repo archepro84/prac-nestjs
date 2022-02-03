@@ -1,4 +1,3 @@
-import { logger } from '../../configs/logger';
 import {
   ArgumentMetadata,
   BadRequestException,
