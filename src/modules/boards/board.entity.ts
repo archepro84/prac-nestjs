@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BoardStatus } from './board-status.enum';
-import { User } from '../auth/user.entity';
+import { User } from '../../auth/user.entity';
 
 @Entity()
 export class Board extends BaseEntity {

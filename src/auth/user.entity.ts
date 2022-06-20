@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Board } from '../boards/board.entity';
+import { Board } from '../modules/boards/board.entity';
 
 @Entity()
 @Unique(['username'])
