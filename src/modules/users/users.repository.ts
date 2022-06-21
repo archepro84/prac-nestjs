@@ -1,6 +1,6 @@
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
-import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { AuthCredentialsDto } from '../../auth/dto/auth-credential.dto';
 import {
   ConflictException,
   InternalServerErrorException,
