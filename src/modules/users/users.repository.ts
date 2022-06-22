@@ -27,4 +27,10 @@ export class UserRepository extends Repository<User> {
       }
     }
   }
+
+  async getAllUser(): Promise<User[]> {
+    const userList = await this.find();
+
+    return userList;
+  }
 }
