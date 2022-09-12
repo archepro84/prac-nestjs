@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { appConfig } from './config/configs';
+import { SecretsManagerConfigs } from './config/secretsManagerConfigs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = appConfig.port;
+  const configsInstance = await SecretsManagerConfigs.getInstance();
+  const { port } = configsInstance.configs.AppConfig;
 
   await app.listen(port);
 }
